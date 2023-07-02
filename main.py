@@ -4,16 +4,28 @@ import requests
 from ro_py.client import Client
 from dotenv import load_dotenv
 import asyncio
+import random
 load_dotenv()
 
-RobloxCookie = os.getenv("COOKIE")
 APIKEY = os.getenv("API_KEY")
+acc_john = os.getenv("acc_john")
+acc_amy = os.getenv("acc_amy")
 
+rblx_bots = {
+    acc_john,
+    acc_amy
+}
 
-client = Client(RobloxCookie)
-
+client = Client(random.choice(rblx_bots))
 app = FastAPI()
 
+@app.get("/docs")
+def home():
+    return {"Data": "Test"}
+
+@app.get("/")
+def about():
+    raise HTTPException(status_code=200, detail="success")
 
 @app.get("/group/promote/")
 async def read_items(user_name: str, key: str,groupid: int):
